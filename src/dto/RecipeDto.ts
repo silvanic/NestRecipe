@@ -1,4 +1,5 @@
 import { ArrayMinSize, IsArray, IsNotEmpty } from 'class-validator';
+import { AuthorDto } from './AuthorDto';
 
 export class RecipeDto {
   @IsNotEmpty()
@@ -9,10 +10,12 @@ export class RecipeDto {
   @IsArray()
   @ArrayMinSize(1)
   ingredients: string[];
-  
+
   @IsArray()
   @ArrayMinSize(1)
   instructions: string[];
 
   tips?: string;
+
+  author?: AuthorDto;
 }

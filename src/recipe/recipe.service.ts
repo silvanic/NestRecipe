@@ -1,11 +1,16 @@
-import { RecipeDto } from './dto/Recipe.interface';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Recipe } from './entities/recipe';
+import { Recipe } from '../entities/recipe';
 import { DeleteResult, Repository } from 'typeorm';
+import { RecipeDto } from '../dto/RecipeDto';
+import { AuthorService } from '../author/author.service';
+import { Author } from '../entities/author';
 
 @Injectable()
 export class RecipeService extends Repository<Recipe> {
+  @Inject(AuthorService)
+  private authorRepository: Repository<Author>;
+
   constructor(
     @InjectRepository(Recipe)
     private recipeRepository: Repository<Recipe>,
@@ -17,8 +22,8 @@ export class RecipeService extends Repository<Recipe> {
     );
   }
 
-  deleteById(id: number): Promise<DeleteResult> {
-    return this.recipeRepository.delete(id);
+  async deleteById(id: number): Promise<DeleteResult> {
+    return await this.recipeRepository.delete(id);
   }
 
   findById(id: number): Promise<Recipe | null> {

@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Recipe } from './recipe/entities/recipe';
+import { Recipe } from './entities/recipe';
 import { DataSource } from 'typeorm';
 import { RecipeModule } from './recipe/recipe.module';
+import { AuthorModule } from './author/author.module';
+import { Author } from './entities/author';
 
 @Module({
   imports: [
@@ -15,10 +17,11 @@ import { RecipeModule } from './recipe/recipe.module';
       username: 'postgres',
       password: 'admin',
       database: 'kitchen',
-      entities: [Recipe],
+      entities: [Recipe, Author],
       synchronize: true,
     }),
     RecipeModule,
+    AuthorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

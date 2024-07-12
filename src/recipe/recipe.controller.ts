@@ -1,5 +1,5 @@
-import { RecipeDto } from './dto/Recipe.interface';
-import { Recipe } from './entities/recipe';
+import { RecipeDto } from '../dto/RecipeDto';
+import { Recipe } from '../entities/recipe';
 import { RecipeService } from './recipe.service';
 import {
   Body,

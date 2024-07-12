@@ -1,9 +1,20 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Author } from './author';
 
 @Entity()
 export class Recipe {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn()
+  created_on: Date;
 
   @Column()
   name: string;
@@ -19,4 +30,8 @@ export class Recipe {
 
   @Column({ nullable: true })
   tips: string;
+
+  @OneToOne(() => Author, { cascade: true, eager: true })
+  @JoinColumn({ name: 'author_id' })
+  author: Author;
 }
