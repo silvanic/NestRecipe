@@ -2,29 +2,27 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Recipe } from './entities/recipe';
 import { DataSource } from 'typeorm';
-import { RecipeModule } from './recipe/recipe.module';
-import { AuthorModule } from './author/author.module';
-import { Author } from './entities/author';
+import { RecipeModule } from './modules/recipe/recipe.module';
+import { AuthorModule } from './modules/author/author.module';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmConfigService } from './config/service/TypeOrmConfigService.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'admin',
-      database: 'kitchen',
-      entities: [Recipe, Author],
-      synchronize: true,
+    ConfigModule.forRoot({
+      envFilePath: './env/.env',
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService,
+      inject: [TypeOrmConfigService],
     }),
     RecipeModule,
     AuthorModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TypeOrmConfigService],
 })
 export class AppModule {
   constructor(private datasource: DataSource) {}

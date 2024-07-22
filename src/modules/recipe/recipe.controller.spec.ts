@@ -1,28 +1,26 @@
-import { Recipe } from '../entities/recipe';
+import { Recipe } from '../../entities/recipe';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeController } from './recipe.controller';
-import { RecipeService } from '../recipe/recipe.service';
-import { RecipeDto } from '../dto/RecipeDto';
-import { RecipeModule } from '../recipe/recipe.module';
+import { RecipeService } from './recipe.service';
+import { RecipeDto } from '../../dto/RecipeDto';
+import { RecipeModule } from './recipe.module';
 import { INestApplication } from '@nestjs/common';
-import { Author } from '../entities/author';
-import { AuthorService } from '../author/author.service';
+import { Author } from '../../entities/author';
 import { AuthorModule } from '../author/author.module';
 
 describe('Recipe', () => {
   let app: INestApplication;
   let recipeController: RecipeController;
   let recipeService: RecipeService;
-  let authorService: AuthorService;
 
   const recipe: RecipeDto = {
     name: "Boeuf de l'or",
-    description: 'Test',
-    ingredients: ['test'],
-    instructions: ['azer'],
+    description: 'Test description',
+    ingredients: ['Ingrédient 1'],
+    instructions: ['Instruction 1'],
     author: {
-      name: 'Author',
+      name: 'Author 1',
     },
   };
 
@@ -48,7 +46,6 @@ describe('Recipe', () => {
     app = module.createNestApplication();
     recipeController = module.get(RecipeController);
     recipeService = module.get(RecipeService);
-    authorService = module.get(AuthorService);
     await app.init();
   });
 
@@ -65,6 +62,16 @@ describe('Recipe', () => {
         description: 'Blabla',
       });
       expect(updated.description).toBe('Blabla');
+    });
+    it('author must have recipes', async () => {
+      const recipes = await recipeController.getRecipesByAuthor(
+        created.author.id,
+      );
+      expect(recipes.length).toBeGreaterThan(0);
+    });
+    it('must get ingredients', async () => {
+      const result = await recipeController.getIngredients();
+      expect(result.length).toBeGreaterThan(0);
     });
     it('should be removed', async () => {
       await recipeController.deleteRecipe(created.id);

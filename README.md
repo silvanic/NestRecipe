@@ -58,16 +58,13 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## How to run the project
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+1. Download PostgresSQL
+2. Create your database
+3. Execute <b>init.sql</b> file ( you can find it inside the <b>sql</b> folder)
+4. Once done, create a folder <b>env</b> and put a copy of <b>.env.example</b> inside it (change the config if needed) and rename it <b>.env</b>
 
-## Stay in touch
+5) And don't forget <b>npm run dev</b>!
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+# <p align="center">Happy coding !</p>

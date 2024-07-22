@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Author } from './author';
@@ -31,7 +31,10 @@ export class Recipe {
   @Column({ nullable: true })
   tips: string;
 
-  @OneToOne(() => Author, { cascade: true, eager: true })
+  @ManyToOne(() => Author, (author) => author.recipes, {
+    cascade: true,
+    eager: true,
+  })
   @JoinColumn({ name: 'author_id' })
   author: Author;
 }
